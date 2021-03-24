@@ -3,12 +3,14 @@ import utils from '../GameUtils';
 import PlayAgain from './PlayAgain';
 import PlayNumber from './PlayNumber';
 import StarsDisplay from './StarsDisplay';
+import ScoreBoard from "./ScoreBoard";
 
 const useGameState = () => {
   const [stars, setStars] = useState(utils.random(1, 9));
   const [availableNums, setAvailableNums] = useState(utils.range(1, 9));
   const [candidateNums, setCandidateNums] = useState([]);
   const [secondsLeft, setSecondsLeft] = useState(10);
+  // const [gamesWon, setGamesWon] = useState(0);
 
   useEffect(() => {
     if (secondsLeft > 0 && availableNums.length > 0) {
@@ -46,8 +48,14 @@ const Game = (props) => {
 
   const candidatesAreWrong = utils.sum(candidateNums) > stars;
 
-  const gameStatus =
+  const gameStatus = 
     availableNums.length === 0 ? "won" : secondsLeft === 0 ? "lost" : "active";
+
+  // const setGamesWon = () => {
+  //   if (gameStatus === 'won') {
+  //     return gamesWon + 1;
+  //   }
+  // };
 
   const numberStatus = (number) => {
     if (!availableNums.includes(number)) {
@@ -97,6 +105,8 @@ const Game = (props) => {
         </div>
       </div>
       <div className="timer">Time Remaining: {secondsLeft}</div>
+
+      <ScoreBoard gamesPlayed={props.gameId} />
     </div>
   );
 };
