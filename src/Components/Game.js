@@ -36,14 +36,6 @@ const useGameState = () => {
     }
   };
 
-//Scoreboard
-// useRef((gamesWon) => {
-//     if (availableNums.length === 0 && secondsLeft > 0) {
-//       setGamesWon(gamesWon += 1);
-//       };
-//     })
-  // console.log(gamesWon);
-
   return {
     stars,
     availableNums,
