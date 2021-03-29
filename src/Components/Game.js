@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import utils from '../GameUtils';
-import PlayAgain from './PlayAgain';
-import PlayNumber from './PlayNumber';
-import StarsDisplay from './StarsDisplay';
+import React, { useState, useEffect } from "react";
+import utils from "../GameUtils";
+import PlayAgain from "./PlayAgain";
+import PlayNumber from "./PlayNumber";
+import StarsDisplay from "./StarsDisplay";
 import ScoreBoard from "./ScoreBoard";
 
 const useGameState = () => {
+ 
+//State Management
   const [stars, setStars] = useState(utils.random(1, 9));
   const [availableNums, setAvailableNums] = useState(utils.range(1, 9));
   const [candidateNums, setCandidateNums] = useState([]);
   const [secondsLeft, setSecondsLeft] = useState(10);
-  // const [gamesWon, setGamesWon] = useState(0);
+  const [gamesWon, setGamesWon] = useState(0);
 
   useEffect(() => {
     if (secondsLeft > 0 && availableNums.length > 0) {
@@ -34,29 +36,50 @@ const useGameState = () => {
     }
   };
 
-  return { stars, availableNums, candidateNums, secondsLeft, setGameState };
+//Scoreboard
+// useRef((gamesWon) => {
+//     if (availableNums.length === 0 && secondsLeft > 0) {
+//       setGamesWon(gamesWon += 1);
+//       };
+//     })
+  // console.log(gamesWon);
+
+  return {
+    stars,
+    availableNums,
+    candidateNums,
+    secondsLeft,
+    setGameState,
+    gamesWon,
+    setGamesWon
+  };
 };
 
 const Game = (props) => {
+//State
   const {
     stars,
     availableNums,
     candidateNums,
     secondsLeft,
     setGameState,
+    gamesWon,
+    setGamesWon,
   } = useGameState();
 
   const candidatesAreWrong = utils.sum(candidateNums) > stars;
 
-  const gameStatus = 
+  const gameStatus =
     availableNums.length === 0 ? "won" : secondsLeft === 0 ? "lost" : "active";
 
-  // const setGamesWon = () => {
-  //   if (gameStatus === 'won') {
-  //     return gamesWon + 1;
-  //   }
-  // };
+  // //Scoreboard
+  useEffect(() => {
+    if (gameStatus === "won") {
+      setGamesWon(gamesWon + 1);
+    }
+  }, [gameStatus]);
 
+  //Numbers
   const numberStatus = (number) => {
     if (!availableNums.includes(number)) {
       return "used";
@@ -80,6 +103,7 @@ const Game = (props) => {
     setGameState(newCandidateNums);
   };
 
+  //Body
   return (
     <div className="game">
       <div className="help">
@@ -106,7 +130,7 @@ const Game = (props) => {
       </div>
       <div className="timer">Time Remaining: {secondsLeft}</div>
 
-      <ScoreBoard gamesPlayed={props.gameId} />
+      <ScoreBoard games={gamesWon} />
     </div>
   );
 };
