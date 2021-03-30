@@ -64,11 +64,12 @@ const Game = (props) => {
   const gameStatus =
     availableNums.length === 0 ? "won" : secondsLeft === 0 ? "lost" : "active";
 
-  // //Scoreboard
+  //Scoreboard
   useEffect(() => {
     if (gameStatus === "won") {
       setGamesWon(gamesWon + 1);
     }
+    // eslint-disable-next-line
   }, [gameStatus]);
 
   //Numbers

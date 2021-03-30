@@ -7,10 +7,9 @@ const App = () => {
  
 
   return (
-    <div>
+    <div className='container' >
       <Game key={gameId} startNewGame={() => setGameId(gameId + 1)} />
       <GamesPlayed played={gameId} />
-      {/* <ScoreBoard games={gamesWon} /> */}
     </div>
   );
 };
